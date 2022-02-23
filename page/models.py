@@ -1,5 +1,7 @@
 from distutils.command.upload import upload
 from django.db import models
+from autoslug import AutoSlugField
+
 
 STATUS = [
     ('draft', 'Taslak'),
@@ -10,9 +12,9 @@ STATUS = [
 
 class Page(models.Model):
     title = models.CharField(max_length=180)
-    # slug = 
+    slug = AutoSlugField(populate_from='title', unique=True)
     content = models.TextField()
-    cover_image = models.ImageField(upload_to='page')
+    cover_image = models.ImageField(upload_to='page', null=True)
     status = models.CharField(
         default="draft",
         choices=STATUS,
