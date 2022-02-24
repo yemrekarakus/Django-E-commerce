@@ -15,6 +15,10 @@ def index(request):
 def carousel_create(request):
     if request.method == 'POST':
         print(request.POST)
-        print(request.FILES['cover_image'])
+        # print(request.FILES['cover_image'])
+        carousel = Carousel.objects.create(
+            title = request.POST.get('title')
+        )
+    
         messages.success(request, 'Birseyler eklendi ama ne oldu bilemiyorum')
     return render(request, 'manage/carousel_create.html', {})
