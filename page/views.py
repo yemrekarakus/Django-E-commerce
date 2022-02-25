@@ -6,7 +6,9 @@ from .forms import CarouselModelForm
 
 def index(request):
     context = dict()
-    context['images'] = Carousel.objects.filter(status="published")
+    context['images'] = Carousel.objects.filter(
+        status="published",
+    ).exclude(cover_image='')
     # context['images'] = images
     return render(request, 'home/index.html', context)
 
@@ -31,13 +33,14 @@ def carousel_create(request):
         messages.success(request, 'Birseyler eklendi ama ne oldu bilemiyorum')
     return render(request, 'manage/carousel_create.html', context)
 
+
 def carousel_list(request):
     context = dict()
-    context['carousel'] = Carousel.objects.all()
+    context['carousel'] = Carousel.objects.all().order_by('-pk')
     return render(request, 'manage/carousel_list.html', context)
 
 
-def carousel_update(request):
+def carousel_update(request,pk):
     context = dict()
     item = Carousel.objects.get(pk=pk)
     return render(request, 'manage/carousel_update.html', context)
